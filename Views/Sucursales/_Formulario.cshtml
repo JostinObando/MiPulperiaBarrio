@@ -1,0 +1,35 @@
+﻿@model MiPulperiaBarrio.Models.Formularios.SucursalFormulario
+
+<div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+<div class="mb-3">
+    <label asp-for="Nombre" class="form-label"></label>
+    <input asp-for="Nombre" class="form-control" />
+    <span asp-validation-for="Nombre" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Provincia" class="form-label"></label>
+    <input asp-for="Provincia" class="form-control" />
+    <span asp-validation-for="Provincia" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Direccion" class="form-label"></label>
+    <input asp-for="Direccion" class="form-control" />
+    <span asp-validation-for="Direccion" class="text-danger"></span>
+</div>
+
+<div class="mb-3">
+    <label asp-for="Telefono" class="form-label"></label>
+    <input asp-for="Telefono" class="form-control" />
+    <span asp-validation-for="Telefono" class="text-danger"></span>
+</div>
+
+<div class="form-check mb-3">
+    <input asp-for="Activa" class="form-check-input" />
+    <label asp-for="Activa" class="form-check-label">Sucursal activa</label>
+</div>
+
+<button type="submit" class="btn btn-primary">Guardar</button>
+<a asp-action="Index" class="btn btn-secondary">Cancelar</a>

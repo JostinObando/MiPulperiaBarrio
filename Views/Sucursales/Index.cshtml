@@ -1,0 +1,85 @@
+﻿@model IEnumerable<MiPulperiaBarrio.Models.Entidades.PulSucursale>
+
+@{
+    ViewData["Title"] = "Sucursales";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Sucursales</h2>
+    <a asp-action="Crear" class="btn btn-primary">Nueva sucursal</a>
+</div>
+
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-success">@TempData["Mensaje"]</div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Provincia</th>
+            <th>Dirección</th>
+            <th>Teléfono</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var sucursal in Model)
+        {
+            <tr>
+                <td>@sucursal.Nombre</td>
+                <td>@sucursal.Provincia</td>
+                <td>@sucursal.Direccion</td>
+                <td>@sucursal.Telefono</td>
+                <td>
+                    @if (sucursal.Activa)
+                    {
+                        <span class="badge bg-success">Activa</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">Inactiva</span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Editar"
+                       asp-route-id="@sucursal.Id"
+                       class="btn btn-sm btn-warning">
+                        Editar
+                    </a>
+
+                    <form asp-action="CambiarEstado"
+                          asp-route-id="@sucursal.Id"
+                          method="post"
+                          class="d-inline formulario-estado">
+                        @Html.AntiForgeryToken()
+
+                        <button type="submit"
+                                class="btn btn-sm btn-outline-secondary">
+                            @(sucursal.Activa ? "Desactivar" : "Activar")
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        $(function () {
+            $(".formulario-estado").on("submit", function (e) {
+                if (!confirm("¿Desea cambiar el estado de esta sucursal?")) {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+}

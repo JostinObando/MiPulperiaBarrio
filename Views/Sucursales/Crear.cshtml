@@ -1,0 +1,16 @@
+﻿@model MiPulperiaBarrio.Models.Formularios.SucursalFormulario
+
+@{
+    ViewData["Title"] = "Nueva sucursal";
+}
+
+<h2>Nueva sucursal</h2>
+
+<form asp-action="Crear" method="post">
+    @Html.AntiForgeryToken()
+    <partial name="_Formulario" model="Model" />
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
