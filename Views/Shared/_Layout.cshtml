@@ -58,6 +58,30 @@
                                 Productos
                             </a>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle"
+                               href="#" id="menuConsultas"
+                               role="button" data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                Consultas
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-controller="Consultas"
+                                       asp-action="Inventario">
+                                        Inventario por sucursal
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-controller="Consultas"
+                                       asp-action="Reservas">
+                                        Reservas por cliente
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -68,12 +92,6 @@
         @RenderBody()
     </main>
 
-    <footer class="border-top bg-white py-3 mt-5">
-        <div class="container text-center text-muted small">
-            Mi Pulpería de Barrio - Sistema de gestión de inventarios
-        </div>
-    </footer>
-
     <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
@@ -81,4 +99,6 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+
 

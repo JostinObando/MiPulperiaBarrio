@@ -1,0 +1,118 @@
+﻿@model IEnumerable<MiPulperiaBarrio.Models.Entidades.VwPulReservasCliente>
+
+@{
+    ViewData["Title"] = "Consulta de reservas";
+    string? estadoSeleccionado = ViewBag.Estado;
+}
+
+<h2 class="mb-3">Consulta de reservas por cliente</h2>
+
+<p class="text-muted">
+    Consulte las reservas de los clientes, ordenadas desde
+    las más recientes, incluyendo su estado y resultado.
+</p>
+
+<form asp-action="Reservas" method="get" class="row g-3 mb-4">
+
+    <div class="col-md-5">
+        <label class="form-label">Cliente</label>
+        <input type="text" name="buscar"
+               value="@ViewBag.Buscar"
+               class="form-control"
+               placeholder="Nombre o identificación del cliente" />
+    </div>
+
+    <div class="col-md-4">
+        <label class="form-label">Estado</label>
+        <select name="estado" class="form-select">
+            <option value="">Todos los estados</option>
+
+            @foreach (var opcion in new[] {
+                "RESERVADO", "COMPRADO", "CANCELADO"
+            })
+            {
+                if (estadoSeleccionado == opcion)
+                {
+                    <option value="@opcion" selected>@opcion</option>
+                }
+                else
+                {
+                    <option value="@opcion">@opcion</option>
+                }
+            }
+        </select>
+    </div>
+
+    <div class="col-md-3 d-flex align-items-end gap-2">
+        <button type="submit" class="btn btn-success">Buscar</button>
+        <a asp-action="Reservas" class="btn btn-secondary">Limpiar</a>
+    </div>
+</form>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered align-middle">
+        <thead>
+            <tr>
+                <th>Reserva</th>
+                <th>Cliente</th>
+                <th>Identificación</th>
+                <th>Producto</th>
+                <th>Sucursal</th>
+                <th>Cantidad</th>
+                <th>Precio unitario</th>
+                <th>Total</th>
+                <th>Fecha reserva</th>
+                <th>Vencimiento</th>
+                <th>Estado</th>
+                <th>Resultado</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ReservaId</td>
+                    <td>@item.Cliente</td>
+                    <td>@item.Identificacion</td>
+                    <td>@item.Producto</td>
+                    <td>@item.Sucursal</td>
+                    <td>@item.Cantidad</td>
+                    <td>₡@((item.PrecioUnitario ?? 0).ToString("N2"))</td>
+                    <td>₡@((item.MontoTotal ?? 0).ToString("N2"))</td>
+                    <td>@item.FechaReserva?.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@item.FechaVencimiento?.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>
+                        @if (item.Estado == "COMPRADO")
+                        {
+                            <span class="badge bg-success">Comprado</span>
+                        }
+                        else if (item.Estado == "CANCELADO")
+                        {
+                            <span class="badge bg-secondary">Cancelado</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-primary">
+                                @item.Estado
+                            </span>
+                        }
+                    </td>
+                    <td>@item.Resultado</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        No se encontraron reservas para los filtros indicados.
+    </div>
+}
+else
+{
+    <p class="text-muted">
+        Total de reservas encontradas: @Model.Count()
+    </p>
+}

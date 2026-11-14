@@ -79,9 +79,42 @@
 
 </div>
 
-<div class="alert alert-light border mt-4">
-    <strong>Tecnologías:</strong>
-    ASP.NET Core MVC, C#, Entity Framework Core,
-    PostgreSQL en Azure, Bootstrap y jQuery.
+<h3 class="mt-5 mb-3">Consultas del sistema</h3>
+
+<div class="row g-4 mb-4">
+    <div class="col-md-6">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body p-4">
+                <h4>Inventario por sucursal</h4>
+                <p class="text-muted">
+                    Consultar existencias disponibles y reservadas
+                    de los productos en cada sucursal.
+                </p>
+                <a asp-controller="Consultas" asp-action="Inventario"
+                   class="btn btn-success">
+                    Consultar inventario
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body p-4">
+                <h4>Reservas por cliente</h4>
+                <p class="text-muted">
+                    Consultar historial de reservas, estados,
+                    fechas y resultados de cada cliente.
+                </p>
+                <a asp-controller="Consultas" asp-action="Reservas"
+                   class="btn btn-success">
+                    Consultar reservas
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+
 
