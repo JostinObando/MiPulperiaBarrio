@@ -1,0 +1,119 @@
+﻿@model IEnumerable<MiPulperiaBarrio.Models.Entidades.PulProducto>
+
+@{
+    ViewData["Title"] = "Productos";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Productos</h2>
+    <a asp-action="Crear" class="btn btn-success">Nuevo producto</a>
+</div>
+
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-success">@TempData["Mensaje"]</div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<form asp-action="Index" method="get" class="row g-2 mb-3">
+    <div class="col-md-6">
+        <input type="text" name="buscar"
+               value="@ViewBag.Buscar"
+               class="form-control"
+               placeholder="Buscar por nombre, código o categoría" />
+    </div>
+    <div class="col-auto">
+        <button type="submit" class="btn btn-success">Buscar</button>
+        <a asp-action="Index" class="btn btn-secondary">Limpiar</a>
+    </div>
+</form>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered align-middle">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Precio</th>
+                <th>Reserva máxima</th>
+                <th>Horas</th>
+                <th>Mínimo</th>
+                <th>Atributos</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var producto in Model)
+            {
+                <tr>
+                    <td>@producto.Codigo</td>
+                    <td>@producto.Nombre</td>
+                    <td>@producto.Categoria</td>
+                    <td>₡@producto.Precio.ToString("N2")</td>
+                    <td>@producto.MaximoReserva</td>
+                    <td>@producto.HorasReserva</td>
+                    <td>@producto.ExistenciaMinima</td>
+                    <td>
+                        <details>
+                            <summary>Ver atributos</summary>
+                            <pre class="small mt-2">@producto.Atributos</pre>
+                        </details>
+                    </td>
+                    <td>
+                        @if (producto.Activo)
+                        {
+                            <span class="badge bg-success">Activo</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">Inactivo</span>
+                        }
+                    </td>
+                    <td>
+                        <div class="d-flex gap-1">
+                            <a asp-action="Editar"
+                               asp-route-id="@producto.Id"
+                               class="btn btn-sm btn-warning">
+                                Editar
+                            </a>
+
+                            <form asp-action="CambiarEstado"
+                                  asp-route-id="@producto.Id"
+                                  method="post"
+                                  class="formulario-estado">
+                                @Html.AntiForgeryToken()
+                                <button type="submit"
+                                        class="btn btn-sm btn-outline-secondary">
+                                    @(producto.Activo ? "Desactivar" : "Activar")
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@if (!Model.Any())
+{
+    <p class="text-muted">No se encontraron productos.</p>
+}
+
+@section Scripts {
+    <script>
+        $(function () {
+            $(".formulario-estado").on("submit", function (e) {
+                if (!confirm("¿Desea cambiar el estado del producto?")) {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+}
