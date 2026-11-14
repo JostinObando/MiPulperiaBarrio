@@ -1,0 +1,17 @@
+﻿@model MiPulperiaBarrio.Models.Formularios.ClienteFormulario
+
+@{
+    ViewData["Title"] = "Editar cliente";
+}
+
+<h2 class="mb-4">Editar cliente</h2>
+
+<form asp-action="Editar" asp-route-id="@Model.Id" method="post">
+    @Html.AntiForgeryToken()
+    <input asp-for="Id" type="hidden" />
+    <partial name="_Formulario" model="Model" />
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
