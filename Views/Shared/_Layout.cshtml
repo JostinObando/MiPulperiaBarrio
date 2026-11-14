@@ -1,50 +1,83 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿@{
+    var controlador = ViewContext.RouteData.Values["controller"]?.ToString();
+    var titulo = ViewData["Title"]?.ToString() ?? "Inicio";
+}
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - MiPulperiaBarrio</title>
-    <script type="importmap"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <title>@titulo - Mi Pulpería de Barrio</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/MiPulperiaBarrio.styles.css" asp-append-version="true" />
 </head>
-<body>
+<body class="bg-light">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MiPulperiaBarrio</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+        <nav class="navbar navbar-expand-lg navbar-dark shadow-sm"
+             style="background-color: #206c4a;">
+            <div class="container">
+                <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">
+                    Mi Pulpería de Barrio
+                </a>
+
+                <button class="navbar-toggler" type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#menuPrincipal"
+                        aria-controls="menuPrincipal"
+                        aria-expanded="false"
+                        aria-label="Mostrar menú">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
+
+                <div class="collapse navbar-collapse" id="menuPrincipal">
+                    <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link @(controlador == "Home" ? "active fw-bold" : "")"
+                               asp-controller="Home" asp-action="Index">
+                                Inicio
+                            </a>
                         </li>
+
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link @(controlador == "Sucursales" ? "active fw-bold" : "")"
+                               asp-controller="Sucursales" asp-action="Index">
+                                Sucursales
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link @(controlador == "Clientes" ? "active fw-bold" : "")"
+                               asp-controller="Clientes" asp-action="Index">
+                                Clientes
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <span class="nav-link text-white-50"
+                                  title="Módulo pendiente de implementar">
+                                Productos (próximamente)
+                            </span>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - MiPulperiaBarrio - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <main class="container py-4">
+        @RenderBody()
+    </main>
+
+    <footer class="border-top bg-white py-3 mt-5">
+        <div class="container text-center text-muted small">
+            Mi Pulpería de Barrio - Sistema de gestión de inventarios
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
